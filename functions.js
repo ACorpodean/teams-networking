@@ -57,7 +57,9 @@ function saveTeam(team) {
     .then(status => {
         console.warn('status after add', status)
         if (status.success) {
-            window.location.reload();
+            // window.location.reload();
+            loadTeams();
+            document.querySelector('form').reset();
         }
     })
 }
@@ -67,7 +69,6 @@ function submitTeam() {
     console.warn('add this value in teams.json', JSON.stringify(team))
     saveTeam(team);
 }
-
 
 loadTeams();
 
