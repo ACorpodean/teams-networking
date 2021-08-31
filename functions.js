@@ -18,7 +18,10 @@ function getTeamsAsHTML(teams){
         <td>${team.members}</td>
         <td>${team.name}</td>
         <td>${team.url}</td>
-        <td>..</td>
+        <td>
+            <a href="#" class="delete-btn" data-id="${team.id}">&#10006;</a>
+            <a href="#" class="edit-btn" data-id="${team.id}">&#9998;</a>
+        </td>
         </tr>`
     }).join('');
 }
@@ -55,13 +58,28 @@ function saveTeam(team) {
     })
     .then(r => r.json())
     .then(status => {
-        console.warn('status after add', status)
         if (status.success) {
-            // window.location.reload();
             loadTeams();
             document.querySelector('form').reset();
         }
+    });
+}
+
+function deleteTeam(id) {
+    fetch("http://localhost:3000/teams-json/delete", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id })
     })
+    .then(r => r.json())
+    .then(status => {
+        if (status.success) {
+            loadTeams();
+            document.querySelector('form').reset();
+        }
+    });
 }
 
 function submitTeam() {
@@ -71,4 +89,12 @@ function submitTeam() {
 }
 
 loadTeams();
+
+document.querySelector('#list tbody').addEventListener("click", e=>{
+    if (e.target.matches("a.delete-btn")) {
+        const id = e.target.getAttribute("data-id");
+        deleteTeam(id);
+    }
+});
+
 
