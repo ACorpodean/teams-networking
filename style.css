@@ -28,3 +28,8 @@ button {
 button[type=submit] {
     color: green;
 }
+
+
+.highlight {
+    background-color: greenyellow;
+}
