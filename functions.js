@@ -3,7 +3,7 @@ let allTeams = [];
 let editId;
 
 function loadTeams() {
-    fetch("http://localhost:3000/teams-json")
+    fetch("http://localhost:3000/teams")
         .then(r=> r.json())
         .then(teams=>{
             console.warn('teams', teams)
@@ -13,9 +13,9 @@ function loadTeams() {
 }
 
 function highlight(text, search) {
-    return text;
-    // TO DO use regexp with /gi
-    // return search ? text.replaceAll(search, `<span class="highlight">${search}</span>`) : text ;
+    return search ? text.replaceAll(new RegExp(search, "gi"), m => {
+        return `<span class="highlight">${m}</span>`;
+    }): text;
 }
 
 function getTeamsAsHTML(teams, search){
@@ -65,7 +65,7 @@ function setTeamValues(team) {
 
 
 function saveTeam(team) {
-    fetch("http://localhost:3000/teams-json/create", {
+    fetch("http://localhost:3000/teams/create", {
         // a json object
         method: "POST",
         headers: {
@@ -83,7 +83,7 @@ function saveTeam(team) {
 }
 
 function deleteTeam(id) {
-    fetch("http://localhost:3000/teams-json/delete", {
+    fetch("http://localhost:3000/teams/delete", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -100,7 +100,7 @@ function deleteTeam(id) {
 }
 
 function updateTeam (team) {
-    fetch("http://localhost:3000/teams-json/update", {
+    fetch("http://localhost:3000/teams/update", {
   method: "PUT",
   headers: {
     "Content-Type": "application/json"
