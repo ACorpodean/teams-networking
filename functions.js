@@ -13,7 +13,7 @@ function loadTeams() {
 }
 
 function highlight(text, search) {
-    return search ? text.replaceAll(new RegExp(search, "gi"), m => {
+    return search ? text.replaceAll(search, m => {
         return `<span class="highlight">${m}</span>`;
     }): text;
 }
@@ -33,8 +33,8 @@ function getTeamsAsHTML(teams, search){
     }).join('');
 }
 function displayTeams(teams){
-    const search = document.getElementById("search").value.toLowerCase();
-    const html = getTeamsAsHTML(teams, search);
+    const search = document.getElementById("search").value;
+    const html = getTeamsAsHTML(teams, search ? new RegExp(search, "gi"): 0);
 
     document.querySelector('#list tbody').innerHTML = html;
 
